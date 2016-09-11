@@ -3,10 +3,6 @@ os:
 
 language: cpp
 
-compiler:
-  - gcc
-  - clang
-
 # use newer Trusty images
 sudo: required
 dist: precise
