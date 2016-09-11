@@ -7,6 +7,34 @@ compiler:
   - gcc
   - clang
 
+# use newer Trusty images
+sudo: required
+dist: precise
+
+matrix:
+  include:
+    - compiler: gcc
+      addons:
+        apt:
+        source:
+          - ubuntu-toolchains-r-test
+        packages:
+          - gcc-4.9
+          - g++-4.9
+        env: CC=gcc-4.9 CXX=g++-4.9
+    - compiler: clang
+      addons:
+        apt:
+        source:
+          - ubuntu-toolchains-r-test
+          - llvm-toolchain-precise-3.6
+        packages:
+          - clang-3.6
+        env: CC=clang-3.6 CXX=clang-3.6
+
+before_install:
+  - sudo apt-get update -qq
+
 env:
   native:
     - CROSS_COMPILE32=0
