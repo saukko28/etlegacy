@@ -1,44 +1,69 @@
-os:
-  - linux
-
 language: cpp
 
 # use newer Trusty images
 sudo: required
 dist: precise
 
+# Test matrix:
+# - Build matrix per compiler: C++11/C++14 + Debug/Release
+# - Optionally: AddressSanitizer (ASAN)
+# - Valgrind: all release builds are also tested with valgrind
+# - clang 3.5, 3.6, trunk
+#     the rest are only tested with ASAN=On.
+# - gcc 4.9, 5
+
 matrix:
   include:
-    - compiler: gcc
-      addons:
-        apt:
-        source:
-          - ubuntu-toolchains-r-test
-        packages:
-          - gcc-4.9
-          - g++-4.9
-        env: CC=gcc-4.9 CXX=g++-4.9
-    - compiler: gcc
-      addons:
-        apt:
-        source:
-          - ubuntu-toolchains-r-test
-        packages:
-          - gcc-5
-          - g++-5
-        env: CC=gcc-5 CXX=g++-5
-    - compiler: clang
-      addons:
-        apt:
-        source:
-          - ubuntu-toolchains-r-test
-          - llvm-toolchain-precise-3.8
-        packages:
-          - clang-3.8
-        env: CC=clang-3.8 CXX=clang-3.8
+
+	# Mac OS X
+  - env: BUILD_TYPE=Release LIBCXX=On
+  - os: osx
+  - compiler: clang
+
+
+  # Linux, gcc-4.9
+  - env: GCC_VERSION=4.9
+  - compiler: &gcc49
+    addons:
+      apt:
+      source:
+        - ubuntu-toolchains-r-test
+      packages:
+        - gcc-4.9
+        - g++-4.9
+
+
+  # Linux, gcc-4.9
+  - env: GCC_VERSION=5
+  - compiler: &gcc5
+    addons:
+      apt:
+      source:
+        - ubuntu-toolchains-r-test
+      packages:
+        - gcc-5
+        - g++-5
+
+
+  # Linux, clang 3.8
+  - env: CLANG_VERSION=3.8
+  - compiler: &clang38
+    addons:
+      apt:
+      source:
+        - ubuntu-toolchains-r-test
+        - llvm-toolchain-precise-3.8
+      packages:
+        - clang-3.8
+
 
 before_install:
   - sudo apt-get update -qq
+  - if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
+  - if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
+  - which $CXX
+  - which $CC
+  - $CXX --version
 
 env:
   native:
@@ -51,11 +76,14 @@ env:
     - BUNDLED_LUA=1
     - BUNDLED_OGG=1
 
+
 before_script:
   - ./misc/travis-setup.sh
 
+
 script:
-  - CC=${CC} CXX=${CCX} ./easybuild.sh
+  - ./easybuild.sh
+
 
 notifications:
   irc:
