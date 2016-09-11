@@ -18,15 +18,24 @@ matrix:
           - gcc-4.9
           - g++-4.9
         env: CC=gcc-4.9 CXX=g++-4.9
+    - compiler: gcc
+      addons:
+        apt:
+        source:
+          - ubuntu-toolchains-r-test
+        packages:
+          - gcc-5
+          - g++-5
+        env: CC=gcc-5 CXX=g++-5
     - compiler: clang
       addons:
         apt:
         source:
           - ubuntu-toolchains-r-test
-          - llvm-toolchain-precise-3.6
+          - llvm-toolchain-precise-3.8
         packages:
-          - clang-3.6
-        env: CC=clang-3.6 CXX=clang-3.6
+          - clang-3.8
+        env: CC=clang-3.8 CXX=clang-3.8
 
 before_install:
   - sudo apt-get update -qq
@@ -46,7 +55,7 @@ before_script:
   - ./misc/travis-setup.sh
 
 script:
-  - ./easybuild.sh
+  - CC=${CC} CXX=${CCX} ./easybuild.sh
 
 notifications:
   irc:
