@@ -1,5 +1,5 @@
 os:
-	- linux
+  - linux
 
 language: cpp
 
@@ -12,119 +12,119 @@ dist: precise
 # - gcc 4.6 (default) 4.9, 5
 
 matrix:
-	include:
+  include:
 
-	# Linux, gcc-4.6
-	- compiler: gcc
-		env:
-			native:
-				- CROSS_COMPILE32=0
-				- BUNDLED_LIBS=1
-				- BUNDLED_SDL=1
-				- BUNDLED_ZLIB=1
-				- BUNDLED_MINIZIP=1
-				- BUNDLED_JPEG=1
-				- BUNDLED_LUA=1
-				- BUNDLED_OGG=1
+  # Linux, gcc-4.6
+  - compiler: gcc
+    env:
+      native:
+        - CROSS_COMPILE32=0
+        - BUNDLED_LIBS=1
+        - BUNDLED_SDL=1
+        - BUNDLED_ZLIB=1
+        - BUNDLED_MINIZIP=1
+        - BUNDLED_JPEG=1
+        - BUNDLED_LUA=1
+        - BUNDLED_OGG=1
 
-	# Linux, gcc-4.9
-	- compiler: gcc
-		addons:
-			apt:
-			source:
-				- ubuntu-toolchains-r-test
-			packages:
-				- gcc-4.9
-				- g++-4.9
-		env: GCC_VERSION=4.9
-			- CROSS_COMPILE32=0
-			- BUNDLED_LIBS=1
-			- BUNDLED_SDL=1
-			- BUNDLED_ZLIB=1
-			- BUNDLED_MINIZIP=1
-			- BUNDLED_JPEG=1
-			- BUNDLED_LUA=1
-			- BUNDLED_OGG=1
+  # Linux, gcc-4.9
+  - compiler: gcc
+    addons:
+      apt:
+      source:
+        - ubuntu-toolchains-r-test
+      packages:
+        - gcc-4.9
+        - g++-4.9
+    env: GCC_VERSION=4.9
+      - CROSS_COMPILE32=0
+      - BUNDLED_LIBS=1
+      - BUNDLED_SDL=1
+      - BUNDLED_ZLIB=1
+      - BUNDLED_MINIZIP=1
+      - BUNDLED_JPEG=1
+      - BUNDLED_LUA=1
+      - BUNDLED_OGG=1
 
-	# Linux, gcc-4.9
-	- compiler: gcc
-		addons:
-			apt:
-			source:
-				- ubuntu-toolchains-r-test
-			packages:
-				- gcc-5
-				- g++-5
-		env: GCC_VERSION=5
-			- CROSS_COMPILE32=0
-			- BUNDLED_LIBS=1
-			- BUNDLED_SDL=1
-			- BUNDLED_ZLIB=1
-			- BUNDLED_MINIZIP=1
-			- BUNDLED_JPEG=1
-			- BUNDLED_LUA=1
-			- BUNDLED_OGG=1
+  # Linux, gcc-4.9
+  - compiler: gcc
+    addons:
+      apt:
+      source:
+        - ubuntu-toolchains-r-test
+      packages:
+        - gcc-5
+        - g++-5
+    env: GCC_VERSION=5
+      - CROSS_COMPILE32=0
+      - BUNDLED_LIBS=1
+      - BUNDLED_SDL=1
+      - BUNDLED_ZLIB=1
+      - BUNDLED_MINIZIP=1
+      - BUNDLED_JPEG=1
+      - BUNDLED_LUA=1
+      - BUNDLED_OGG=1
 
-	# Linux, clang 3.4
-	- compiler: clang
-		env:
-			native:
-				- CROSS_COMPILE32=0
-				- BUNDLED_LIBS=1
-				- BUNDLED_SDL=1
-				- BUNDLED_ZLIB=1
-				- BUNDLED_MINIZIP=1
-				- BUNDLED_JPEG=1
-				- BUNDLED_LUA=1
-				- BUNDLED_OGG=1
+  # Linux, clang 3.4
+  - compiler: clang
+    env:
+      native:
+        - CROSS_COMPILE32=0
+        - BUNDLED_LIBS=1
+        - BUNDLED_SDL=1
+        - BUNDLED_ZLIB=1
+        - BUNDLED_MINIZIP=1
+        - BUNDLED_JPEG=1
+        - BUNDLED_LUA=1
+        - BUNDLED_OGG=1
 
-	# Linux, clang 3.8
-	- compiler: clang
-		addons:
-			apt:
-			source:
-				- ubuntu-toolchains-r-test
-				- llvm-toolchain-precise-3.8
-			packages:
-				- clang-3.8
-		env: CLANG_VERSION=3.8
-			- CROSS_COMPILE32=0
-			- BUNDLED_LIBS=1
-			- BUNDLED_SDL=1
-			- BUNDLED_ZLIB=1
-			- BUNDLED_MINIZIP=1
-			- BUNDLED_JPEG=1
-			- BUNDLED_LUA=1
-			- BUNDLED_OGG=1
+  # Linux, clang 3.8
+  - compiler: clang
+    addons:
+      apt:
+      source:
+        - ubuntu-toolchains-r-test
+        - llvm-toolchain-precise-3.8
+      packages:
+        - clang-3.8
+    env: CLANG_VERSION=3.8
+      - CROSS_COMPILE32=0
+      - BUNDLED_LIBS=1
+      - BUNDLED_SDL=1
+      - BUNDLED_ZLIB=1
+      - BUNDLED_MINIZIP=1
+      - BUNDLED_JPEG=1
+      - BUNDLED_LUA=1
+      - BUNDLED_OGG=1
 
 
 before_install:
-	- sudo apt-get update -qq
-	- if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
-	- if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
-	- which $CXX
-	- which $CC
-	- $CXX --version
+  - sudo apt-get update -qq
+  - if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
+  - if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
+  - which $CXX
+  - which $CC
+  - $CXX --version
 
 before_script:
-	- ./misc/travis-setup.sh
+  - ./misc/travis-setup.sh
 
 
 script:
-	- ./easybuild.sh
+  - ./easybuild.sh
 
 
 notifications:
-	irc:
-		template:
-			- "%{repository}#%{build_number} %{commit} %{author}: %{message} %{build_url}"
-		channels:
-			- "irc.freenode.org#etlegacy"
-		use_notice: true
-		skip_join: true
-	webhooks:
-		urls:
-			- https://webhooks.gitter.im/e/5a93d4b59447e6129a58
-		on_success: change
-		on_failure: always
-		on_start: never
+  irc:
+    template:
+      - "%{repository}#%{build_number} %{commit} %{author}: %{message} %{build_url}"
+    channels:
+      - "irc.freenode.org#etlegacy"
+    use_notice: true
+    skip_join: true
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/5a93d4b59447e6129a58
+    on_success: change
+    on_failure: always
+    on_start: never
