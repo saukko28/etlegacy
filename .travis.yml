@@ -15,7 +15,7 @@ dist: precise
 matrix:
   include:
 
-	# Mac OS X
+  # Mac OS X
   - env: BUILD_TYPE=Release LIBCXX=On
   - os: osx
   - compiler: clang
