@@ -261,7 +261,7 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 
 	if (*cgs.rawmapname)
 	{
-		float x = 106.5;																// FIXME: fix adjustment od diff resoltions
+		float x = 106.5;																// FIXME: fix adjustment on different resoltions
 																						// do switch(r_mode)?
 		if (!bg_mappic)
 		{
