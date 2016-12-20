@@ -365,7 +365,7 @@ void CG_LoadPanel_RenderLoadingBar(panel_button_t *button)
  */
 void CG_LoadPanel_RenderCampaignTypeText(panel_button_t *button)
 {
-	CG_Text_Paint_Ext(button->rect.x, button->rect.y, button->font->scalex, button->font->scaley, button->font->colour, va("%s:", CG_LoadPanel_GameTypeName(cgs.gametype)), 0, 0, button->font->style, button->font->font);
+	CG_Text_Paint_Ext(button->rect.x, button->rect.y, button->font->scalex, button->font->scaley, button->font->colour, va("%s:", CG_LoadPanel_GameTypeName(cgs.gametype)), 0, 0, ITEM_TEXTSTYLE_SHADOWED, button->font->font);
 }
 
 /**
@@ -427,7 +427,7 @@ void CG_LoadPanel_RenderCampaignNameText(panel_button_t *button)
 		scaleF = campaignNameTextScaleFactor(Q_PrintStrlen(cs));
 
 		w = CG_Text_Width_Ext(cs, button->font->scalex * scaleF, 0, button->font->font);
-		CG_Text_Paint_Ext(button->rect.x + (button->rect.w - w) * 0.5f, button->rect.y, button->font->scalex * scaleF, button->font->scaley * scaleF, button->font->colour, cs, 0, 0, 0, button->font->font);
+		CG_Text_Paint_Ext(button->rect.x + (button->rect.w - w) * 0.5f, button->rect.y, button->font->scalex * scaleF, button->font->scaley * scaleF, button->font->colour, cs, 0, 0, ITEM_TEXTSTYLE_SHADOWED, button->font->font);
 
 	}
 	else
@@ -440,7 +440,7 @@ void CG_LoadPanel_RenderCampaignNameText(panel_button_t *button)
 		scaleF = campaignNameTextScaleFactor(Q_PrintStrlen(cgs.arenaData.longname)); // FIXME: up to 128 chars !
 
 		w = CG_Text_Width_Ext(cgs.arenaData.longname, button->font->scalex * scaleF, 0, button->font->font);
-		CG_Text_Paint_Ext(button->rect.x + (button->rect.w - w) * 0.5f, button->rect.y, button->font->scalex * scaleF, button->font->scaley * scaleF, button->font->colour, cgs.arenaData.longname, 0, 0, 0, button->font->font);
+		CG_Text_Paint_Ext(button->rect.x + (button->rect.w - w) * 0.5f, button->rect.y, button->font->scalex * scaleF, button->font->scaley * scaleF, button->font->colour, cgs.arenaData.longname, 0, 0, ITEM_TEXTSTYLE_SHADOWED, button->font->font);
 	}
 }
 
@@ -499,7 +499,7 @@ void CG_LoadPanel_RenderMissionDescriptionText(panel_button_t *button)
 		if (*p == '\n')
 		{
 			*p++ = '\0';
-			DC->drawTextExt(button->rect.x + 4, y, button->font->scalex, button->font->scaley, button->font->colour, s, 0, 0, 0, button->font->font);
+			DC->drawTextExt(button->rect.x + 4, y, button->font->scalex, button->font->scaley, colorWhite, s, 0, 0, ITEM_TEXTSTYLE_SHADOWED, button->font->font);
 			y += 8;
 			s  = p;
 		}
