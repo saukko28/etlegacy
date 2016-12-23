@@ -261,8 +261,8 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 
 	if (*cgs.rawmapname)
 	{
-		float x = 106.5;																// FIXME: fix adjustment on different resoltions
-																						// do switch(r_mode)?
+		float x = 0 + cgs.wideXoffset;
+
 		if (!bg_mappic)
 		{
 			bg_mappic = DC->registerShaderNoMip(va("levelshots/%s", cgs.rawmapname));
@@ -271,10 +271,10 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 				bg_mappic = DC->registerShaderNoMip("levelshots/unknownmap");
 			}
 		}
-		/*
+		
 		trap_R_SetColor(colorBlack);
 		CG_DrawPic(x, 0, 640, 480, bg_mappic);
-		*/
+		
 		trap_R_SetColor(NULL);
 		CG_DrawPic(x, 0, 640, 480, bg_mappic);
 
