@@ -275,11 +275,58 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 		trap_R_SetColor(colorBlack);
 		CG_DrawPic(x, 0, 640, 480, bg_mappic);
 		
-		trap_R_SetColor(NULL);
-		CG_DrawPic(x, 0, 640, 480, bg_mappic);
+		int r_mode = (int)(DC->getCVarValue("r_mode"));
 
-
-
+		switch (r_mode)
+		{
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+				trap_R_SetColor(NULL);
+				CG_DrawPic(x, 0, 640, 480, bg_mappic);
+				break;
+			case 10:
+				// need more info on this one
+				break;
+			case 11:
+			case 12:
+			case 13:
+			case 14:
+				 break;
+			case 15:
+				trap_R_SetColor(NULL);
+				CG_DrawPic(x, 0, 640, 480, bg_mappic);
+				break;
+			case 16:
+			case 17:
+				trap_R_SetColor(NULL);
+				CG_DrawPic(x - cgs.wideXoffset, 0, 640 + 250, 480, bg_mappic);
+				break;
+			case 18:
+				// need more info on this one
+			case 19:
+				// need more info on this one
+			case 20:
+				// need more info on this one
+				break;
+			case -2:
+				// suppose majortly of people is using 1080p displays for destop resolution
+				trap_R_SetColor(NULL);
+				CG_DrawPic(x - cgs.wideXoffset, 0, 640 + 250, 480, bg_mappic);
+				break;
+			default:
+				trap_R_SetColor(NULL);
+				CG_DrawPic(x, 0, 640, 480, bg_mappic);
+				break;
+		}
+		
 	BG_PanelButtonsRender(loadpanelButtons);
 
 	if (interactive)
@@ -313,9 +360,8 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 			y += 10;
 		}
 
-		x	= 670;
 		y   = 470;
-		CG_Text_Paint_Centred_Ext(x, y, 0.22f, 0.22f, clr3, ("^1" LEGACY_MOD " ^0" ETLEGACY_VERSION), 0, 0, 0, &cgs.media.bg_loadscreenfont1);
+		CG_Text_Paint_Centred_Ext(x + 245, y, 0.22f, 0.22f, clr3, ("^1" LEGACY_MOD " ^0" ETLEGACY_VERSION), 0, 0, 0, &cgs.media.bg_loadscreenfont1);
 
 
 	}
