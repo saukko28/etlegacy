@@ -361,7 +361,50 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 		}
 
 		y   = 470;
-		CG_Text_Paint_Centred_Ext(x + 245, y, 0.22f, 0.22f, clr3, ("^1" LEGACY_MOD " ^0" ETLEGACY_VERSION), 0, 0, 0, &cgs.media.bg_loadscreenfont1);
+
+		switch (r_mode)
+		{
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+				x+=245;
+				break;
+			case 10:
+				//x+=?;
+				break;
+			case 11:
+			case 12:
+			case 13:
+			case 14:
+				//x+=?;
+				break;
+			case 15:
+				x += 245;
+				break;
+			case 16:
+			case 17:
+				x += 350;
+				break;
+			case 18:
+			case 19:
+			case 20:
+				break;
+			case -2:
+				x += 350;
+				break;
+			default:
+				x += 245;
+				break;
+		}
+
+		CG_Text_Paint_Centred_Ext(x, y, 0.22f, 0.22f, clr3, ("^1" LEGACY_MOD " ^0" ETLEGACY_VERSION), 0, 0, 0, &cgs.media.bg_loadscreenfont1);
 
 
 	}
