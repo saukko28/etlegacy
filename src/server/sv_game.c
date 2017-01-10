@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -302,7 +302,7 @@ void SV_GetServerinfo(char *buffer, size_t bufferSize)
 {
 	if (bufferSize < 1)
 	{
-		Com_Error(ERR_DROP, "SV_GetServerinfo: bufferSize == %i", bufferSize);
+		Com_Error(ERR_DROP, "SV_GetServerinfo: bufferSize == %zu", bufferSize);
 	}
 	Q_strncpyz(buffer, Cvar_InfoString(CVAR_SERVERINFO | CVAR_SERVERINFO_NOUPDATE), bufferSize);
 }

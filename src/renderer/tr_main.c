@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1494,6 +1494,12 @@ void R_AddDrawSurf(surfaceType_t *surface, shader_t *shader, int fogNum, int fro
 	// off.  Check for overflow, and drop new surfaces on overflow.
 	if (tr.refdef.numDrawSurfs >= MAX_DRAWSURFS)
 	{
+		return;
+	}
+
+	if (*surface >= SF_NUM_SURFACE_TYPES)
+	{
+		Ren_Print("Warning R_AddDrawSurf: invalid surface type [%i] skipped (shader [%s] - fogNum [%i] - fontFace [%i] - dlightMap [%i])\n", *surface, shader->name, fogNum, frontFace, dlightMap);
 		return;
 	}
 

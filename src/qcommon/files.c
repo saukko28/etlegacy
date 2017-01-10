@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1671,7 +1671,7 @@ qboolean FS_CL_ExtractFromPakFile(const char *base, const char *gamedir, const c
 	fs_filter_flag = 0;
 
 	// if its not in the pak, we bail
-	if (srcLength == -1)
+	if (srcLength <= 0)
 	{
 		Com_Printf("FS_CL_ExtractFromPakFile: failed to read '%s' from pak file\n", filename);
 		return qfalse;

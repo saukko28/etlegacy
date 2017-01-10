@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -313,6 +313,7 @@ qhandle_t RE_RegisterModel(const char *name)
 		if (ident != MD3_IDENT && ident != MDC_IDENT)
 		{
 			ri.Printf(PRINT_WARNING, "RE_RegisterModel: unknown fileid for %s\n", name);
+			ri.FS_FreeFile(buf);
 			goto fail;
 		}
 

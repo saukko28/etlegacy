@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -2266,9 +2266,9 @@ static void CL_Cache_UsedFile_f(void)
 		Com_Error(ERR_DROP, "usedfile without enough parameters");
 	}
 
-	strcpy(groupStr, Cmd_Argv(1));
+	Q_strncpyz(groupStr, Cmd_Argv(1), MAX_QPATH);
+	Q_strncpyz(itemStr, Cmd_Argv(2), MAX_QPATH);
 
-	strcpy(itemStr, Cmd_Argv(2));
 	for (i = 3; i < Cmd_Argc(); i++)
 	{
 		Q_strcat(itemStr, MAX_QPATH, " ");

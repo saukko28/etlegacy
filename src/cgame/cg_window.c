@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -654,7 +654,7 @@ qboolean CG_addString(cg_window_t *w, const char *buf)
 			{
 				w->lineCount++;
 				cg.aStringPool[i].fActive = qtrue;
-				strcpy(cg.aStringPool[i].str, buf);
+				Q_strncpyz(cg.aStringPool[i].str, buf, sizeof(cg.aStringPool[0].str));
 
 				return qtrue;
 			}
@@ -666,7 +666,7 @@ qboolean CG_addString(cg_window_t *w, const char *buf)
 		if (!cg.aStringPool[i].fActive)
 		{
 			cg.aStringPool[i].fActive = qtrue;
-			strcpy(cg.aStringPool[i].str, buf);
+			Q_strncpyz(cg.aStringPool[i].str, buf, sizeof(cg.aStringPool[0].str));
 			w->lineText[w->lineCount++] = (char *)&cg.aStringPool[i].str;
 
 			return qtrue;

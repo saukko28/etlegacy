@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1076,7 +1076,7 @@ image_t *R_FindImageFile(const char *name, qboolean mipmap, qboolean allowPicmip
 				}
 				if (image->wrapClampMode != glWrapClampMode)
 				{
-					Ren_Print("WARNING: reused image %s with mixed glWrapClampMode parm\n", name);
+					Ren_Developer("WARNING: reused image %s with mixed glWrapClampMode parm\n", name);
 				}
 			}
 			return image;
@@ -1099,6 +1099,7 @@ image_t *R_FindImageFile(const char *name, qboolean mipmap, qboolean allowPicmip
 	R_LoadImage(name, &pic, &width, &height);
 	if (pic == NULL)
 	{
+		Ren_Developer("WARNING: Image '%s' not found. Note: This might be false positive for shaders w/o image.\n", name);
 		return NULL;
 	}
 
@@ -1117,7 +1118,7 @@ image_t *R_FindImageFile(const char *name, qboolean mipmap, qboolean allowPicmip
 
 	if (((width - 1) & width) || ((height - 1) & height))
 	{
-		Ren_Print("^1Image not power of 2 scaled: %s\n", name);
+		Ren_Developer("WARNING: Image not power of 2 scaled: %s\n", name);
 		return NULL;
 	}
 
@@ -1625,6 +1626,7 @@ RE_GetShaderFromModel
     on the model, without the lighmap stage, if the shader has a lightmap stage
 
     NOTE: only works for bmodels right now.  Could modify for other models (md3's etc.)
+	FIXME:
 ==============
 */
 qhandle_t RE_GetShaderFromModel(qhandle_t modelid, int surfnum, int withlightmap)
@@ -1654,7 +1656,7 @@ qhandle_t RE_GetShaderFromModel(qhandle_t modelid, int surfnum, int withlightmap
 
 			surf = bmodel->firstSurface + surfnum;
 			// check for null shader (can happen on func_explosive's with botclips attached)
-			if (!surf->shader)
+			if (!surf->shader) // || surf->shader->defaultShader ?
 			{
 				return 0;
 			}
@@ -1935,6 +1937,22 @@ void *R_CacheImageAlloc(int size)
 	else
 	{
 		return ri.Hunk_Alloc(size, h_low);
+	}
+}
+
+void R_CacheImageFreeAll()
+{
+	if (r_cache->integer && r_cacheShaders->integer)
+	{
+		int i = 0;
+
+		for (i = 0; i < FILE_HASH_SIZE; i++)
+		{
+			if (backupHashTable[i])
+			{
+				R_CacheImageFree(backupHashTable[i]);
+			}
+		}
 	}
 }
 

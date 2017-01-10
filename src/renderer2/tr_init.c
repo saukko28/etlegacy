@@ -4,7 +4,7 @@
  * Copyright (C) 2010-2011 Robert Beckebans <trebor_7@users.sourceforge.net>
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1677,13 +1677,10 @@ void RE_EndRegistration(void)
 
 static void RE_PurgeCache(void)
 {
-	Ren_Print(S_COLOR_RED "TODO RE_PurgeCache\n");
-
-	/*
-	R_PurgeShaders(9999999);
-	R_PurgeBackupImages(9999999);
-	R_PurgeModels(9999999);
-	*/
+	// r2 doesn't use caching system!
+	//R_PurgeShaders(9999999);
+	//R_PurgeBackupImages(9999999);
+	//R_PurgeModels(9999999);
 }
 
 #ifdef USE_RENDERER_DLOPEN

@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -84,7 +84,7 @@ static snd_codec_t *S_FindCodecForFile(const char *filename)
 			COM_DefaultExtension(fn, MAX_QPATH, codec->ext);
 
 			// Check it exists
-			if (FS_ReadFile(fn, NULL) != -1)
+			if (FS_ReadFile(fn, NULL) > 0)
 			{
 				return codec;
 			}

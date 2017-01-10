@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -72,13 +72,14 @@ void G_loadMatchGame(void)
 	// Set up the random reinforcement seeds for both teams and send to clients
 	dwBlueOffset = rand() % MAX_REINFSEEDS;
 	dwRedOffset  = rand() % MAX_REINFSEEDS;
-	strcpy(strReinfSeeds, va("%d %d", (dwBlueOffset << REINF_BLUEDELT) + (rand() % (1 << REINF_BLUEDELT)),
-	                         (dwRedOffset << REINF_REDDELT)  + (rand() % (1 << REINF_REDDELT))));
+	Q_strncpyz(strReinfSeeds, va("%d %d", (dwBlueOffset << REINF_BLUEDELT) + (rand() % (1 << REINF_BLUEDELT)),
+	                             (dwRedOffset << REINF_REDDELT)  + (rand() % (1 << REINF_REDDELT))),
+	                             MAX_STRING_CHARS);
 
 	for (i = 0; i < MAX_REINFSEEDS; i++)
 	{
 		aRandomValues[i] = (rand() % REINF_RANGE) * aReinfSeeds[i];
-		strcat(strReinfSeeds, va(" %d", aRandomValues[i]));
+		Q_strcat(strReinfSeeds, MAX_STRING_CHARS, va(" %d", aRandomValues[i]));
 	}
 
 	level.dwBlueReinfOffset = 1000 * aRandomValues[dwBlueOffset] / aReinfSeeds[dwBlueOffset];

@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1996,7 +1996,7 @@ void *Hunk_Alloc(size_t size, ha_pref preference)
 		Hunk_Log();
 		Hunk_SmallLog();
 #endif
-		Com_Error(ERR_DROP, "Hunk_Alloc failed on %i", size);
+		Com_Error(ERR_DROP, "Hunk_Alloc failed on %zu", size);
 	}
 
 	if (hunk_permanent == &hunk_low)
@@ -2065,7 +2065,7 @@ void *Hunk_AllocateTempMemory(size_t size)
 
 	if (hunk_temp->temp + hunk_permanent->permanent + size > s_hunkTotal)
 	{
-		Com_Error(ERR_DROP, "Hunk_AllocateTempMemory: failed on %i", size);
+		Com_Error(ERR_DROP, "Hunk_AllocateTempMemory: failed on %zu", size);
 	}
 
 	if (hunk_temp == &hunk_low)
@@ -2818,7 +2818,7 @@ void Com_Init(char *commandLine)
 		{
 			char *defaultProfile = NULL;
 
-			FS_ReadFile("profiles/defaultprofile.dat", (void **)&defaultProfile);
+			(void) FS_ReadFile("profiles/defaultprofile.dat", (void **)&defaultProfile);
 
 			if (defaultProfile)
 			{

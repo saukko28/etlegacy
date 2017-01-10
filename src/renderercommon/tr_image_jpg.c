@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -116,7 +116,7 @@ void R_LoadJPG(const char *filename, unsigned char **pic, int *width, int *heigh
 	 */
 
 	len = ri.FS_ReadFile(( char * ) filename, &fbuffer.v);
-	if (!fbuffer.b || len < 0)
+	if (!fbuffer.b || len <= 0)
 	{
 		return;
 	}

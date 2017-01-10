@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -309,7 +309,7 @@ void Cmd_Exec_f(void)
 
 	Q_strncpyz(filename, Cmd_Argv(1), sizeof(filename));
 	COM_DefaultExtension(filename, sizeof(filename), ".cfg");
-	FS_ReadFile(filename, &f.v);
+	(void) FS_ReadFile(filename, &f.v);
 	if (!f.c)
 	{
 		Com_Printf("couldn't exec %s\n", filename);
@@ -453,7 +453,7 @@ char *Cmd_Args(void)
 	cmd_args[0] = 0;
 	for (i = 1 ; i < cmd_argc ; i++)
 	{
-		strcat(cmd_args, cmd_argv[i]);
+		Q_strcat(cmd_args, MAX_STRING_CHARS, cmd_argv[i]);
 		if (i != cmd_argc - 1)
 		{
 			strcat(cmd_args, " ");
@@ -480,7 +480,7 @@ char *Cmd_ArgsFrom(int arg)
 	}
 	for (i = arg ; i < cmd_argc ; i++)
 	{
-		strcat(cmd_args, cmd_argv[i]);
+		Q_strcat(cmd_args, BIG_INFO_STRING, cmd_argv[i]);
 		if (i != cmd_argc - 1)
 		{
 			strcat(cmd_args, " ");
@@ -519,7 +519,7 @@ char *Cmd_ArgsFromTo(int arg, int max)
 
 	for (i = arg ; i < max ; i++)
 	{
-		strcat(cmd_args, cmd_argv[i]);
+		Q_strcat(cmd_args, BIG_INFO_STRING, cmd_argv[i]);
 		if (i != max - 1)
 		{
 			strcat(cmd_args, " ");

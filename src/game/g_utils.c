@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -66,7 +66,7 @@ void AddRemap(const char *oldShader, const char *newShader, float timeOffset)
 		if (Q_stricmp(oldShader, remappedShaders[i].oldShader) == 0)
 		{
 			// found it, just update this one
-			strcpy(remappedShaders[i].newShader, newShader);
+			Q_strncpyz(remappedShaders[i].newShader, newShader, MAX_QPATH);
 			remappedShaders[i].timeOffset = timeOffset;
 			return;
 		}

@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -83,7 +83,7 @@ void R_LoadPCX(const char *filename, byte **pic, int *width, int *height, byte a
 
 	// load the file
 	len = ri.FS_ReadFile(( char * ) filename, &raw.v);
-	if (!raw.b || len < 0)
+	if (!raw.b || len <= 0)
 	{
 		return;
 	}

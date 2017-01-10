@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -435,7 +435,7 @@ int PC_MergeTokens(token_t *t1, token_t *t2)
 		// remove trailing double quote
 		t1->string[strlen(t1->string) - 1] = '\0';
 		// concat without leading double quote
-		strcat(t1->string, &t2->string[1]);
+		Q_strcat(t1->string, sizeof(t1->string), &t2->string[1]);
 		return qtrue;
 	}
 	// FIXME: merging of two number of the same sub type

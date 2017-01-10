@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1082,7 +1082,7 @@ void Key_Bind_f(void)
 	cmd[0] = 0;     // start out with a null string
 	for (i = 2 ; i < c ; i++)
 	{
-		strcat(cmd, Cmd_Argv(i));
+		Q_strcat(cmd, sizeof(cmd), Cmd_Argv(i));
 		if (i != (c - 1))
 		{
 			strcat(cmd, " ");

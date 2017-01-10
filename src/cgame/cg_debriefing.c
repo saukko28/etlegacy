@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -2135,7 +2135,7 @@ void CG_Debriefing_ParseAwards(void)
 
 		if (value > 0)
 		{
-			strcat(s, (value == (int)(value)) ? va("^7 (%i)", (int)(value)) : va("^7 (%.1f)", value));
+			Q_strcat(s, size, (value == (int)(value)) ? va("^7 (%i)", (int)(value)) : va("^7 (%.1f)", value));
 		}
 
 		// award

@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -214,7 +214,7 @@ void SV_GetConfigstring(int index, char *buffer, size_t bufferSize)
 {
 	if (bufferSize < 1)
 	{
-		Com_Error(ERR_DROP, "SV_GetConfigstring: bufferSize == %i", bufferSize);
+		Com_Error(ERR_DROP, "SV_GetConfigstring: bufferSize == %zu", bufferSize);
 	}
 	if (index < 0 || index >= MAX_CONFIGSTRINGS)
 	{
@@ -266,7 +266,7 @@ void SV_GetUserinfo(int index, char *buffer, size_t bufferSize)
 {
 	if (bufferSize < 1)
 	{
-		Com_Error(ERR_DROP, "SV_GetUserinfo: bufferSize == %i", bufferSize);
+		Com_Error(ERR_DROP, "SV_GetUserinfo: bufferSize == %zu", bufferSize);
 	}
 	if (index < 0 || index >= sv_maxclients->integer)
 	{
@@ -662,10 +662,10 @@ void SV_TouchCGameDLL(void)
  */
 void SV_SpawnServer(const char *server)
 {
-	int        i;
-	int        checksum;
-	qboolean   isBot;
-	const char *p;
+	int          i;
+	unsigned int checksum;
+	qboolean     isBot;
+	const char   *p;
 
 	// broadcast a level change to all connected clients
 	if (svs.clients && !com_errorEntered)
@@ -1155,7 +1155,7 @@ void SV_Init(void)
 	SV_BotInitBotLib();
 
 	svs.serverLoad = -1;
-	
+
 #if defined(FEATURE_IRC_SERVER) && defined(DEDICATED)
 	IRC_Init();
 #endif

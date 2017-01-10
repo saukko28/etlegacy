@@ -4,7 +4,7 @@
  * Copyright (C) 2010-2011 Robert Beckebans <trebor_7@users.sourceforge.net>
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1407,6 +1407,8 @@ typedef enum
 	UNIFORM_COUNT
 } uniform_t;
 
+#define MAX_UNIFORM_VALUES 64
+
 typedef enum
 {
 #define TEX_DECL
@@ -1475,7 +1477,7 @@ typedef struct programInfo_s
 	char *fragmentLibraries;
 	char *vertexShaderText;
 	char *fragmentShaderText;
-	uniformValue_t uniformValues[64];
+	uniformValue_t uniformValues[MAX_UNIFORM_VALUES];
 	int numUniformValues;
 	qboolean compiled;
 	unsigned int checkSum;

@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -286,6 +286,7 @@ void CM_TestInLeaf(traceWork_t *tw, cLeaf_t *leaf)
 	}
 }
 
+#if !defined(ALWAYS_BBOX_VS_BBOX)
 /**
  * @brief Capsule inside capsule check
  * @param[in,out] tw
@@ -398,6 +399,7 @@ void CM_TestBoundingBoxInCapsule(traceWork_t *tw, clipHandle_t model)
 	cmod = CM_ClipHandleToModel(h);
 	CM_TestInLeaf(tw, &cmod->leaf);
 }
+#endif
 
 #define MAX_POSITION_LEAFS  1024
 
@@ -894,6 +896,7 @@ static void CM_TraceThroughLeaf(traceWork_t *tw, cLeaf_t *leaf)
 		}
 	}
 }
+#if !defined(ALWAYS_BBOX_VS_BBOX)
 
 #define RADIUS_EPSILON      1.0f
 
@@ -1225,7 +1228,7 @@ static void CM_TraceBoundingBoxThroughCapsule(traceWork_t *tw, clipHandle_t mode
 	cmod = CM_ClipHandleToModel(h);
 	CM_TraceThroughLeaf(tw, &cmod->leaf);
 }
-
+#endif
 //=========================================================================================
 
 /**

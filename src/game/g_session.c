@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -266,11 +266,11 @@ void G_ReadSessionData(gclient_t *client)
 	       (int *)&client->sess.spectatorState,
 	       &client->sess.spectatorClient,
 	       &client->sess.playerType,
-	       &client->sess.playerWeapon,
-	       &client->sess.playerWeapon2,
+		   (int *)&client->sess.playerWeapon,
+		   (int *)&client->sess.playerWeapon2,
 	       &client->sess.latchPlayerType,
-	       &client->sess.latchPlayerWeapon,
-	       &client->sess.latchPlayerWeapon2,
+		   (int *)&client->sess.latchPlayerWeapon,
+		   (int *)&client->sess.latchPlayerWeapon2,
 
 	       &client->sess.referee,
 	       &client->sess.spec_invite,

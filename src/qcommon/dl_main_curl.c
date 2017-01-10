@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -176,7 +176,7 @@ int DL_BeginDownload(char *localName, const char *remoteName)
 		return 0;
 	}
 
-	if (!localName || !remoteName)
+	if (!localName[0] || !remoteName[0])
 	{
 		Com_Printf(S_COLOR_RED "DL_BeginDownload: Error - empty download URL or empty local file name\n");
 		return 0;
@@ -259,7 +259,7 @@ char *DL_GetString(const char *url)
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, DL_write_function);
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &write_result);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&write_result);
 
 	status = curl_easy_perform(curl);
 	if (status != 0)

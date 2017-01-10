@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1357,7 +1357,7 @@ const char *warmupType[] = { "None", "Enemies Only", "Everyone" };
  */
 void G_WarmupDamageTypeList(gentity_t *ent)
 {
-	size_t i;
+	int i;
 
 	G_refPrintf(ent, "\nAvailable Warmup Damage types:\n------------------------------");
 	for (i = 0; i < (sizeof(warmupType) / sizeof(char *)); i++)

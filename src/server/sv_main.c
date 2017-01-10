@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1803,7 +1803,7 @@ int SV_LoadTag(const char *mod_name)
 		}
 	}
 
-	FS_ReadFile(mod_name, (void **)&buffer);
+	(void) FS_ReadFile(mod_name, (void **)&buffer);
 
 	if (!buffer)
 	{

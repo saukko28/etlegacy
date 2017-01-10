@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1522,7 +1522,7 @@ qboolean OnSameTeam(gentity_t *ent1, gentity_t *ent2);
 void reset_numobjectives(void);
 
 // g_mem.c
-void *G_Alloc(size_t size);
+void *G_Alloc(unsigned int size);
 void G_InitMemory(void);
 void Svcmd_GameMem_f(void);
 

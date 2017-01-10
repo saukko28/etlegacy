@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -1092,6 +1092,9 @@ int NET_IPSocket(const char *net_interface, int port, int *err)
 	u_long             _true = 1;
 	int                i     = 1;
 
+//	struct timeval tv;
+//	tv.tv_sec  = 1;
+
 	*err = 0;
 
 	if (net_interface)
@@ -1123,6 +1126,12 @@ int NET_IPSocket(const char *net_interface, int port, int *err)
 	{
 		Com_Printf("WARNING: NET_IPSocket - setsockopt SO_BROADCAST: %s\n", NET_ErrorString());
 	}
+
+	// set socket timeout
+	//if (setsockopt(newsocket, SOL_SOCKET, SO_RCVTIMEO , &tv,sizeof(tv)) < 0)
+	//{
+	//	Com_Printf("WARNING: NET_IPSocket - can't set RCVTIMEO: %s\n", NET_ErrorString());
+	//}
 
 	if (!net_interface || !net_interface[0])
 	{

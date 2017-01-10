@@ -3,7 +3,7 @@
  * Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
  *
  * ET: Legacy
- * Copyright (C) 2012-2016 ET:Legacy team <mail@etlegacy.com>
+ * Copyright (C) 2012-2017 ET:Legacy team <mail@etlegacy.com>
  *
  * This file is part of ET: Legacy - http://www.etlegacy.com
  *
@@ -951,17 +951,19 @@ void CG_mvOverlayClientUpdate(int pID, int index)
 	cg.mvOverlay[index].w       = w;
 	if (w != NULL)
 	{
-		strcpy(cg.mvOverlay[index].info, va("%s%s%2d",
-		                                    strClassHighlights[cg.mvOverlay[index].classID * 2],
-		                                    (w == cg.mvCurrentMainview) ? "*" : "",
-		                                    pID)
+		Q_strncpyz(cg.mvOverlay[index].info, va("%s%s%2d",
+		                                        strClassHighlights[cg.mvOverlay[index].classID * 2],
+		                                        (w == cg.mvCurrentMainview) ? "*" : "",
+		                                        pID),
+		                                        sizeof(cg.mvOverlay[0].info)
 		       );
 	}
 	else
 	{
-		strcpy(cg.mvOverlay[index].info, va("%s%2d",
-		                                    strClassHighlights[(cg.mvOverlay[index].classID * 2) + 1],
-		                                    pID)
+		Q_strncpyz(cg.mvOverlay[index].info, va("%s%2d",
+		                                        strClassHighlights[(cg.mvOverlay[index].classID * 2) + 1],
+		                                        pID),
+		                                        sizeof(cg.mvOverlay[0].info)
 		       );
 	}
 
