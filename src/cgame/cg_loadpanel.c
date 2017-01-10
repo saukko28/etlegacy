@@ -95,6 +95,34 @@ panel_button_t loadScreenBack =
 	0
 };
 
+panel_button_t loadScreenBackLeft =
+{
+	"gfx/loading/banner_side",
+	NULL,
+	{ -110,                    350,  110, 69 },
+	{ 0,                      0,  0,   0, 0, 0, 0, 0 },
+	NULL,                     /* font     */
+	NULL,                     /* keyDown  */
+	NULL,                     /* keyUp    */
+	BG_PanelButtonsRender_Img,
+	NULL,
+	0
+};
+
+panel_button_t loadScreenBackRight =
+{
+	"gfx/loading/banner_side",
+	NULL,
+	{ 640,                    350,  110, 69 },
+	{ 0,                      0,  0,   0, 0, 0, 0, 0 },
+	NULL,                     /* font     */
+	NULL,                     /* keyDown  */
+	NULL,                     /* keyUp    */
+	BG_PanelButtonsRender_Img,
+	NULL,
+	0
+};
+
 panel_button_t missiondescriptionPanelText =
 {
 	NULL,
@@ -182,6 +210,7 @@ panel_button_t loadScreenMeterBackText =
 panel_button_t *loadpanelButtons[] =
 {
 	&loadScreenBack,              &missiondescriptionPanelText,
+	&loadScreenBackLeft,          &loadScreenBackRight,
 	&campaignheaderPanelText,     &campaignPanelText,
 	&loadScreenMeterBack,         &loadScreenMeterBack2,             &loadScreenMeterBackText,
 	NULL,
@@ -273,7 +302,7 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 		}
 		
 		trap_R_SetColor(colorBlack);
-		CG_DrawPic(x, 0, 640, 480, bg_mappic);
+		CG_DrawPic(x - cgs.wideXoffset, 0, 3840, 2160, 0);
 		
 		int r_mode = (int)(DC->getCVarValue("r_mode"));
 
@@ -299,7 +328,9 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 			case 12:
 			case 13:
 			case 14:
-				 break;
+				trap_R_SetColor(NULL);
+				CG_DrawPic(x - cgs.wideXoffset, 0, 640 + 215, 480, bg_mappic);
+				break;
 			case 15:
 				trap_R_SetColor(NULL);
 				CG_DrawPic(x, 0, 640, 480, bg_mappic);
