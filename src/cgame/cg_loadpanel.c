@@ -38,6 +38,7 @@ extern displayContextDef_t *DC;
 
 qboolean  bg_loadscreeninited = qfalse;
 qhandle_t bg_mappic;
+qhandle_t bg_mapcc;
 
 // panel_button_text_t FONTNAME = { SCALEX, SCALEY, COLOUR, STYLE, FONT };
 
@@ -277,7 +278,7 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 		RegisterFont("ariblk", 27, &cgs.media.bg_loadscreenfont1);
 		RegisterFont("courbd", 30, &cgs.media.bg_loadscreenfont2);
 
-
+		bg_mapcc = 0;
 		bg_mappic = 0;
 
 		BG_PanelButtonsSetup(loadpanelButtons);
@@ -292,9 +293,10 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 	{
 		float x = 0 + cgs.wideXoffset;
 
-		if (!bg_mappic)
+		if (!bg_mappic && !bg_mapcc)
 		{
 			bg_mappic = DC->registerShaderNoMip(va("levelshots/%s", cgs.rawmapname));
+			bg_mapcc = DC->registerShaderNoMip(va("levelshots/%s_cc.tga", cgs.rawmapname));
 			if (!bg_mappic)
 			{
 				bg_mappic = DC->registerShaderNoMip("levelshots/unknownmap");
@@ -320,6 +322,7 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 			case 9:
 				trap_R_SetColor(NULL);
 				CG_DrawPic(x, 0, 640, 480, bg_mappic);
+				CG_DrawPic(x + cgs.wideXoffset + 450, 180, 160, 160, bg_mapcc);
 				break;
 			case 10:
 				// need more info on this one
@@ -330,6 +333,7 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 			case 14:
 				trap_R_SetColor(NULL);
 				CG_DrawPic(x - cgs.wideXoffset, 0, 640 + 215, 480, bg_mappic);
+				CG_DrawPic(x + cgs.wideXoffset + 450, 180, 160, 160, bg_mapcc);
 				break;
 			case 15:
 				trap_R_SetColor(NULL);
@@ -339,6 +343,7 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 			case 17:
 				trap_R_SetColor(NULL);
 				CG_DrawPic(x - cgs.wideXoffset, 0, 640 + 250, 480, bg_mappic);
+				CG_DrawPic(x + cgs.wideXoffset + 450, 180, 160, 160, bg_mapcc);
 				break;
 			case 18:
 				// need more info on this one
@@ -351,6 +356,7 @@ void CG_DrawConnectScreen(qboolean interactive, qboolean forcerefresh)
 				// suppose majortly of people is using 1080p displays for destop resolution
 				trap_R_SetColor(NULL);
 				CG_DrawPic(x - cgs.wideXoffset, 0, 640 + 250, 480, bg_mappic);
+				CG_DrawPic(x + cgs.wideXoffset + 450, 180, 160, 160, bg_mapcc);
 				break;
 			default:
 				trap_R_SetColor(NULL);
