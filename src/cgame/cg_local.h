@@ -3358,6 +3358,7 @@ void CG_Debriefing_Maps_Draw(panel_button_t *button);
 void CG_Debriefing_Awards_Draw(panel_button_t *button);
 void CG_PanelButtonsRender_Window(panel_button_t *button);
 void CG_PanelButtonsRender_Button(panel_button_t *button);
+void CG_LoadTipPanel(panel_button_t *button);
 
 team_t CG_Debriefing_FindWinningTeamForMap(void);
 

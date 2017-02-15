@@ -208,11 +208,25 @@ panel_button_t loadScreenMeterBackText =
 	0
 };
 
+panel_button_t tipsPanelText =
+{
+	NULL,
+	NULL,
+	{ 0,                              420,   152, 232 },
+	{ 0,                                0,    0,   0, 0, 0, 0, 0 },
+	&campaignpTxt,                      /* font     */
+	NULL,                               /* keyDown  */
+	NULL,                               /* keyUp    */
+	CG_LoadTipPanel,
+	NULL,
+	0
+};
+
 panel_button_t *loadpanelButtons[] =
 {
 	&loadScreenBack,              &missiondescriptionPanelText,
 	&loadScreenBackLeft,          &loadScreenBackRight,
-	&campaignheaderPanelText,     &campaignPanelText,
+	&campaignheaderPanelText,     &campaignPanelText,                &tipsPanelText,
 	&loadScreenMeterBack,         &loadScreenMeterBack2,             &loadScreenMeterBackText,
 	NULL,
 };
@@ -615,4 +629,37 @@ void CG_LoadPanel_KeyHandling(int key, qboolean down)
 void CG_LoadPanel_LoadingBarText(panel_button_t *button)
 {
 	CG_Text_Paint_Ext(button->rect.x, button->rect.y, button->font->scalex, button->font->scaley, button->font->colour, cg.infoScreenText, 0, 0, 0, button->font->font);
+}
+
+void CG_LoadTipPanel(panel_button_t *butoon)
+{
+	int i, j;
+	float x, y;
+
+	const char tips[10][1024] =
+	{
+		"TEXT1",
+		"TEXT2",
+		"TEXT3",
+		"TEXT4",
+		"TEXT5",
+		"TEXT6",
+		"TEXT7",
+		"TEXT8",
+		"TEXT9",
+		"TEXT10"
+	};
+
+	tips[i][j];
+
+	x = 320;
+	y = 430;
+
+	i = rand() % 10;	//FIXME: This should work once per load map not every refresh
+
+	CG_Text_Paint_Centred_Ext(x, y, 0.2f, 0.2f, colorWhite, "TIP:", 0, 26, 0, &cgs.media.bg_loadscreenfont2);
+
+	y += 10;
+
+	CG_Text_Paint_Centred_Ext(x, y, 0.2f, 0.2f, colorWhite, tips[i], 0, 26, 0, &cgs.media.bg_loadscreenfont2);
 }
