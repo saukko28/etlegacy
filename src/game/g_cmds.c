@@ -1278,7 +1278,6 @@ qboolean SetTeam(gentity_t *ent, const char *s, qboolean force, weapon_t w1, wea
 	int              respawnsLeft = client->ps.persistant[PERS_RESPAWNS_LEFT]; // preserve respawn count
 
 	// see what change is requested
-
 	G_TeamDataForString(s, client - level.clients, &team, &specState, &specClient);
 
 	if (ent->client->freezed)
@@ -1320,7 +1319,6 @@ qboolean SetTeam(gentity_t *ent, const char *s, qboolean force, weapon_t w1, wea
 				CP("cp \"The Allies have too many players.\n\"");
 				return qfalse; // ignore the request
 			}
-
 			// It's ok, the team we are switching to has less or same number of players
 		}
 	}
@@ -1377,7 +1375,7 @@ qboolean SetTeam(gentity_t *ent, const char *s, qboolean force, weapon_t w1, wea
 			player_die(ent, ent, ent, 100000, MOD_SWITCHTEAM);
 		}
 	}
-	// they go to the end of the line for tournements
+	// they go to the end of the line for tournaments
 	if (team == TEAM_SPECTATOR)
 	{
 		client->sess.spectatorTime = level.time;
@@ -1459,10 +1457,15 @@ qboolean SetTeam(gentity_t *ent, const char *s, qboolean force, weapon_t w1, wea
 	ClientBegin(clientNum);
 
 	// restore old respawn count (players cannot jump from team to team to regain lives)
-	if (respawnsLeft >= 0 && oldTeam != TEAM_SPECTATOR)
+	/*if (respawnsLeft >= 0 && (oldTeam == TEAM_ALLIES || oldTeam == TEAM_AXIS))
 	{
 		client->ps.persistant[PERS_RESPAWNS_LEFT] = respawnsLeft;
 	}
+
+	if (respawnsLeft >= 0 && oldTeam == TEAM_SPECTATOR)
+	{
+		client->ps.persistant[PERS_RESPAWNS_LEFT] = respawnsLeft - 1;
+	}*/
 
 	G_verifyMatchState(oldTeam);
 

@@ -153,7 +153,6 @@ qboolean SpotWouldTelefrag(gentity_t *spot)
 			return qtrue;
 		}
 	}
-
 	return qfalse;
 }
 
@@ -177,7 +176,6 @@ gentity_t *SelectNearestDeathmatchSpawnPoint(vec3_t from)
 			nearestSpot = spot;
 		}
 	}
-
 	return nearestSpot;
 }
 
@@ -351,7 +349,6 @@ void BodySink2(gentity_t *ent)
 		// let's free the dead guy
 		ent->think = G_BodyDP;
 	}
-
 	ent->s.pos.trType = TR_LINEAR;
 	ent->s.pos.trTime = level.time;
 	VectorCopy(ent->r.currentOrigin, ent->s.pos.trBase);
@@ -377,7 +374,6 @@ void BodySink(gentity_t *ent)
 			ent->activator = NULL;
 		}
 	}
-
 	BodySink2(ent);
 }
 
@@ -438,7 +434,6 @@ static void G_StepSlideCorpse(gentity_t *ent, vec3_t newOrigin)
 		{
 			VectorCopy(trace.endpos, ent->s.pos.trBase);
 		}
-
 		return;     // we got exactly where we wanted to go first try
 	}
 
@@ -665,7 +660,6 @@ void CopyToBodyQue(gentity_t *ent)
 	{
 		body->takedamage = qtrue;
 	}
-
 	trap_LinkEntity(body);
 }
 
@@ -774,7 +768,6 @@ void G_DropLimboAmmo(gentity_t *ent)
 
 			Weapon_MagicAmmo_Ext(ent, launchspot, launchspot, launchvel);
 		}
-
 		ent->client->ps.classWeaponTime = cwt;
 	}
 }
@@ -830,7 +823,6 @@ void limbo(gentity_t *ent, qboolean makeCorpse)
 				ent->client->pers.savedClassWeaponTime = level.time - ent->client->ps.classWeaponTime;
 			}
 		}
-
 
 		ent->client->ps.pm_flags |= PMF_LIMBO;
 		ent->client->ps.pm_flags |= PMF_FOLLOW;
@@ -920,7 +912,6 @@ void reinforce(gentity_t *ent)
 	{
 		ent->client->ps.persistant[p] = ent->client->saved_persistant[p];
 	}
-
 	respawn(ent);
 }
 
@@ -935,11 +926,14 @@ void respawn(gentity_t *ent)
 	// Decrease the number of respawns left
 	if (g_gametype.integer != GT_WOLF_LMS)
 	{
-		if (ent->client->ps.persistant[PERS_RESPAWNS_LEFT] > 0 && g_gamestate.integer == GS_PLAYING)
+		if (ent->client->ps.persistant[PERS_RESPAWNS_LEFT] > 0 && g_gamestate.integer == GS_PLAYING/* && ent->client->sess.sessionTeam != TEAM_SPECTATOR*/)
 		{
 			if (g_maxlives.integer > 0)
 			{
-				ent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
+				if (ent->client->sess.sessionTeam == TEAM_ALLIES || ent->client->sess.sessionTeam == TEAM_AXIS)
+				{
+					ent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
+				}
 			}
 			else
 			{
@@ -953,6 +947,29 @@ void respawn(gentity_t *ent)
 				}
 			}
 		}
+
+		/*else if ((ent->client->ps.persistant[PERS_RESPAWNS_LEFT] < g_maxlives.integer - 1) && g_gamestate.integer == GS_PLAYING && ent->client->sess.sessionTeam == TEAM_SPECTATOR)
+		{
+			ent->client->ps.persistant[PERS_RESPAWNS_LEFT];
+		}*/
+		/*if (ent->client->sess.sessionTeam == TEAM_AXIS || ent->client->sess.sessionTeam == TEAM_ALLIES)
+		{
+			if (g_maxlives.integer > 0)
+			{
+				if (ent->client->sess.sessionTeam == TEAM_ALLIES || ent->client->sess.sessionTeam == TEAM_AXIS)
+				{
+					ent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
+				}
+			}
+
+			else if (g_axismaxlives.integer > 0 || g_alliedmaxlives.integer > 0)
+			{
+				if (ent->client->sess.sessionTeam == TEAM_ALLIES || ent->client->sess.sessionTeam == TEAM_AXIS)
+				{
+					ent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
+				}
+			}
+		}*/
 	}
 
 	G_DPrintf("Respawning %s, %i lives left\n", ent->client->pers.netname, ent->client->ps.persistant[PERS_RESPAWNS_LEFT]);
@@ -983,7 +1000,6 @@ int TeamCount(int ignoreClientNum, team_t team)
 			count++;
 		}
 	}
-
 	return count;
 }
 
@@ -1007,7 +1023,6 @@ team_t PickTeam(int ignoreClientNum)
 	{
 		return(TEAM_ALLIES);
 	}
-
 	// equal team count, so join the team with the lowest score
 	return(((level.teamScores[TEAM_ALLIES] > level.teamScores[TEAM_AXIS]) ? TEAM_AXIS : TEAM_ALLIES));
 }
@@ -1176,21 +1191,15 @@ void SetWolfSpawnWeapons(gclient_t *client)
 
 	client->ps.weaponstate = WEAPON_READY;
 
-	//
 	// knife
-	//
 	weaponClassInfo = &classInfo->classKnifeWeapon;
 	AddWeaponToPlayer(client, weaponClassInfo->weapon, weaponClassInfo->startingAmmo, weaponClassInfo->startingClip, qtrue);
 
-	//
 	// grenade
-	//
 	weaponClassInfo = &classInfo->classGrenadeWeapon;
 	AddWeaponToPlayer(client, weaponClassInfo->weapon, weaponClassInfo->startingAmmo, weaponClassInfo->startingClip, qfalse);
 
-	//
 	// primary weapon
-	//
 	weaponClassInfo = &classInfo->classPrimaryWeapons[0]; // default primary weapon
 
 	// ensure weapon is valid
@@ -1215,9 +1224,7 @@ void SetWolfSpawnWeapons(gclient_t *client)
 	// add primary weapon (set to current weapon)
 	AddWeaponToPlayer(client, weaponClassInfo->weapon, weaponClassInfo->startingAmmo, weaponClassInfo->startingClip, qtrue);
 
-	//
 	// secondary weapon
-	//
 	weaponClassInfo = &classInfo->classSecondaryWeapons[0];   // default secondary weapon
 
 	// ensure weapon is valid
@@ -1242,9 +1249,7 @@ void SetWolfSpawnWeapons(gclient_t *client)
 	// add secondary weapon
 	AddWeaponToPlayer(client, weaponClassInfo->weapon, weaponClassInfo->startingAmmo, weaponClassInfo->startingClip, qfalse);
 
-	//
 	// special weapons and items
-	//
 	for (i = 0; i < MAX_WEAPS_PER_CLASS && classInfo->classMiscWeapons[i].weapon; i++)
 	{
 		weaponClassInfo = &classInfo->classMiscWeapons[i];
@@ -1259,7 +1264,6 @@ void SetWolfSpawnWeapons(gclient_t *client)
 					continue;
 				}
 			}
-
 			// add each
 			AddWeaponToPlayer(client, weaponClassInfo->weapon, weaponClassInfo->startingAmmo, weaponClassInfo->startingClip, qfalse);
 		}
@@ -1303,10 +1307,8 @@ int G_CountTeamMedics(team_t team, qboolean alivecheck)
 				continue;
 			}
 		}
-
 		numMedics++;
 	}
-
 	return numMedics;
 }
 
@@ -1328,7 +1330,6 @@ void AddMedicTeamBonus(gclient_t *client)
 	{
 		client->pers.maxHealth += 15;
 	}
-
 	client->ps.stats[STAT_MAX_HEALTH] = client->pers.maxHealth;
 }
 
@@ -1359,7 +1360,6 @@ int G_CountTeamFieldops(team_t team)
 
 		numFieldops++;
 	}
-
 	return numFieldops;
 }
 
@@ -1641,7 +1641,6 @@ char *CheckUserinfo(int clientNum, char *userinfo)
 	{
 		return "Wrong rate field in userinfo.";
 	}
-
 	return 0;
 }
 
@@ -2203,7 +2202,7 @@ char *ClientConnect(int clientNum, qboolean firstTime, qboolean isBot)
 			unsigned long ip = GeoIP_addr_to_num(cs_ip);
 
 			// 10.0.0.0/8			[RFC1918]
-			// 172.16.0.0/12			[RFC1918]
+			// 172.16.0.0/12		[RFC1918]
 			// 192.168.0.0/16		[RFC1918]
 			// 169.254.0.0/16		[RFC3330] we need this ?
 			if (((ip & 0xFF000000) == 0x0A000000) ||
@@ -2311,7 +2310,6 @@ char *ClientConnect(int clientNum, qboolean firstTime, qboolean isBot)
 			trap_SendServerCommand(-1, va("cpm \"" S_COLOR_WHITE "%s" S_COLOR_WHITE " connected\n\"", client->pers.netname));
 		}
 	}
-
 	// count current clients and rank for scoreboard
 	CalculateRanks();
 
@@ -2394,14 +2392,22 @@ void ClientBegin(int clientNum)
 	// Also save PERS_SPAWN_COUNT, so that CG_Respawn happens
 	spawn_count = client->ps.persistant[PERS_SPAWN_COUNT];
 
-	if (client->ps.persistant[PERS_RESPAWNS_LEFT] > 0)
+	//if (client->ps.persistant[PERS_RESPAWNS_LEFT] > 0)
+	//{
+	/*if (client->sess.sessionTeam == TEAM_ALLIES || client->sess.sessionTeam == TEAM_AXIS)
+	{
+		lives_left = client->ps.persistant[PERS_RESPAWNS_LEFT];// - 1;
+	}*/
+	//}
+	/*if (g_gamestate.integer == GS_PLAYING && client->sess.sessionTeam == TEAM_SPECTATOR && client->ps.persistant[PERS_RESPAWNS_LEFT] >= g_maxlives.integer)
 	{
 		lives_left = client->ps.persistant[PERS_RESPAWNS_LEFT] - 1;
 	}
+
 	else
-	{
+	{*/
 		lives_left = client->ps.persistant[PERS_RESPAWNS_LEFT];
-	}
+	//}
 	flags = client->ps.eFlags;
 
 	// restore xp & score
@@ -2470,17 +2476,35 @@ void ClientBegin(int clientNum)
 	// Changed below for team independant maxlives
 	if (g_gametype.integer != GT_WOLF_LMS)
 	{
-		if ((client->sess.sessionTeam == TEAM_AXIS || client->sess.sessionTeam == TEAM_ALLIES))
-		{
+		//if (client->sess.sessionTeam == TEAM_AXIS || client->sess.sessionTeam == TEAM_ALLIES)
+		//{
 			if (!client->maxlivescalced)
 			{
 				if (g_maxlives.integer > 0)
 				{
-					client->ps.persistant[PERS_RESPAWNS_LEFT] = G_ComputeMaxLives(client, g_maxlives.integer);
+					if (client->sess.sessionTeam == TEAM_AXIS || client->sess.sessionTeam == TEAM_ALLIES)
+					{
+						client->ps.persistant[PERS_RESPAWNS_LEFT] = G_ComputeMaxLives(client, g_maxlives.integer);
+					}
+
+					// FIXME: Now warmup works! But when a spectator joins for the first time during a game,
+					// it will lose a life after respawn
+					else if (client->sess.sessionTeam == TEAM_SPECTATOR)
+					{
+						//if (g_gamestate.integer == GS_PLAYING)
+						//{
+						//	client->ps.persistant[PERS_RESPAWNS_LEFT] = g_maxlives.integer;
+						//}
+
+						//else // warmup
+						//{
+							client->ps.persistant[PERS_RESPAWNS_LEFT] = G_ComputeMaxLives(client, g_maxlives.integer);
+						//}
+					}
 				}
 				else
 				{
-					client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
+					client->ps.persistant[PERS_RESPAWNS_LEFT] = - 1;
 				}
 
 				if (g_axismaxlives.integer > 0 || g_alliedmaxlives.integer > 0)
@@ -2498,7 +2522,6 @@ void ClientBegin(int clientNum)
 						client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
 					}
 				}
-
 				client->maxlivescalced = qtrue;
 			}
 			else
@@ -2526,16 +2549,16 @@ void ClientBegin(int clientNum)
 					{
 						if (client->sess.sessionTeam == TEAM_AXIS)
 						{
-							client->ps.persistant[PERS_RESPAWNS_LEFT] = g_axismaxlives.integer;
+							client->ps.persistant[PERS_RESPAWNS_LEFT] = g_axismaxlives.integer - 1;
 						}
 						else if (client->sess.sessionTeam == TEAM_ALLIES)
 						{
-							client->ps.persistant[PERS_RESPAWNS_LEFT] = g_alliedmaxlives.integer;
+							client->ps.persistant[PERS_RESPAWNS_LEFT] = g_alliedmaxlives.integer - 1;
 						}
 					}
 				}
 			}
-		}
+		//}
 	}
 
 	// Start players in limbo mode if they change teams during the match
@@ -2547,13 +2570,13 @@ void ClientBegin(int clientNum)
 		client->ps.pm_type            = PM_DEAD;
 		client->ps.stats[STAT_HEALTH] = 0;
 
-		if (g_gametype.integer != GT_WOLF_LMS)
+		/*if (g_gametype.integer != GT_WOLF_LMS)
 		{
 			if (g_maxlives.integer > 0)
 			{
 				client->ps.persistant[PERS_RESPAWNS_LEFT]++;
 			}
-		}
+		}*/
 
 		limbo(ent, qfalse);
 	}
@@ -2660,7 +2683,6 @@ gentity_t *SelectSpawnPointFromList(char *list, vec3_t spawn_origin, vec3_t spaw
 		// Set the angle we'll spawn in to
 		VectorCopy(spawnPoint->s.angles, spawn_angles);
 	}
-
 	return spawnPoint;
 }
 
@@ -2674,7 +2696,6 @@ gentity_t *SelectSpawnPointFromList(char *list, vec3_t spawn_origin, vec3_t spaw
 static char *G_CheckVersion(gentity_t *ent)
 {
 	// Prevent nasty version mismatches (or people sticking in Q3Aimbot cgames)
-
 	char userinfo[MAX_INFO_STRING];
 	char *s;
 
@@ -2788,7 +2809,7 @@ void ClientSpawn(gentity_t *ent, qboolean revived, qboolean teamChange, qboolean
 	savedTeam      = client->ps.teamNum;
 	savedDeathTime = client->deathTime;
 
-	for (i = 0 ; i < MAX_PERSISTANT ; i++)
+	for (i = 0; i < MAX_PERSISTANT; i++)
 	{
 		persistant[i] = client->ps.persistant[i];
 	}
@@ -2812,7 +2833,7 @@ void ClientSpawn(gentity_t *ent, qboolean revived, qboolean teamChange, qboolean
 		client->ps.pm_type = PM_INTERMISSION;
 	}
 
-	for (i = 0 ; i < MAX_PERSISTANT ; i++)
+	for (i = 0; i < MAX_PERSISTANT; i++)
 	{
 		client->ps.persistant[i] = persistant[i];
 	}
@@ -2837,10 +2858,8 @@ void ClientSpawn(gentity_t *ent, qboolean revived, qboolean teamChange, qboolean
 	client->deathTime                 = savedDeathTime;
 
 	// Reset/restore special weapon time
-	if (
-		((g_stickyCharge.integer & STICKYCHARGE_SELFKILL) && isMortalSelfDamage(ent))
-		|| (g_stickyCharge.integer & STICKYCHARGE_ANYDEATH)
-		)
+	if (((g_stickyCharge.integer & STICKYCHARGE_SELFKILL) && isMortalSelfDamage(ent))
+		|| (g_stickyCharge.integer & STICKYCHARGE_ANYDEATH))
 	{
 		switch (client->sess.latchPlayerType)
 		{
@@ -2888,7 +2907,7 @@ void ClientSpawn(gentity_t *ent, qboolean revived, qboolean teamChange, qboolean
 	ent->r.contents        = CONTENTS_BODY;
 	ent->clipmask          = MASK_PLAYERSOLID;
 
-	// Init to -1 on first spawn;
+	// Init to -1 on first spawn
 	if (!revived)
 	{
 		ent->props_frame_state = -1;
@@ -3007,7 +3026,6 @@ void ClientSpawn(gentity_t *ent, qboolean revived, qboolean teamChange, qboolean
 
 	// ***NOTE*** the following line is order-dependent and must *FOLLOW* SetWolfSpawnWeapons() in multiplayer
 	// AddMedicTeamBonus() now adds medic team bonus and stores in ps.stats[STAT_MAX_HEALTH].
-
 	if (client->sess.skill[SK_BATTLE_SENSE] >= 3)
 	{
 		// We get some extra max health, but don't spawn with that much
@@ -3161,7 +3179,7 @@ void ClientDisconnect(int clientNum)
 	G_LeaveTank(ent, qfalse);
 
 	// update uniform owners
-	for (i = 0 ; i < level.numConnectedClients ; i++)
+	for (i = 0; i < level.numConnectedClients; i++)
 	{
 		flag = g_entities + level.sortedClients[i];
 		if (flag->client->disguiseClientNum == clientNum && flag->client->ps.powerups[PW_OPS_DISGUISED])
@@ -3176,7 +3194,7 @@ void ClientDisconnect(int clientNum)
 	}
 
 	// stop any following clients
-	for (i = 0 ; i < level.numConnectedClients ; i++)
+	for (i = 0; i < level.numConnectedClients; i++)
 	{
 		flag = g_entities + level.sortedClients[i];
 		if (flag->client->sess.sessionTeam == TEAM_SPECTATOR
@@ -3244,7 +3262,6 @@ void ClientDisconnect(int clientNum)
 	    && ent->client->sess.sessionTeam != TEAM_SPECTATOR
 	    && !(ent->client->ps.pm_flags & PMF_LIMBO))
 	{
-
 		// They don't get to take powerups with them!
 		// Especially important for stuff like CTF flags
 		TossWeapons(ent);
@@ -3274,7 +3291,6 @@ void ClientDisconnect(int clientNum)
 			level.mapvoteinfo[ent->client->sess.mapVotedFor[0]].numVotes--;
 			level.mapvoteinfo[ent->client->sess.mapVotedFor[0]].totalVotes--;
 		}
-
 		// send updated vote tally to all
 		G_IntermissionVoteTally(NULL);
 	}
@@ -3316,7 +3332,6 @@ void ClientDisconnect(int clientNum)
 	}
 #endif
 }
-
 
 /**
  * @brief In just the GAME DLL, we want to store the groundtrace surface stuff,
